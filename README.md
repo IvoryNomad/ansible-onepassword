@@ -22,13 +22,37 @@ An Ansible collection providing lookup plugins for seamless 1Password CLI integr
 
 ## Installation
 
-Install the collection using `ansible-galaxy`:
+### Step 1: Install the Collection
 
 ```bash
 ansible-galaxy collection install ivorynomad.onepassword
 ```
 
-This will automatically install the required Python dependency (`op-python`).
+### Step 2: Install Python Dependencies
+
+Install the required Python dependency in the same environment as Ansible:
+
+```bash
+pip install op-python>=0.1.0
+```
+
+**Important:** If Ansible is installed in a virtual environment, ensure that environment is activated before installing both the collection and the Python dependency.
+
+### Alternative: Install from requirements.txt
+
+After installing the collection, you can install dependencies from the collection's requirements file:
+
+```bash
+# Find your collections path (usually ~/.ansible/collections/)
+pip install -r ~/.ansible/collections/ansible_collections/ivorynomad/onepassword/requirements.txt
+```
+
+### Virtual Environment Notes
+
+If you're using a virtual environment for Ansible:
+- Activate your venv before running both `ansible-galaxy` and `pip install` commands
+- Verify you're using the correct `ansible-galaxy` command (some systems have multiple installations)
+- Check your installation with: `ansible-galaxy collection list | grep onepassword`
 
 ## Authentication
 
@@ -240,6 +264,14 @@ Error: op command not found
 ```
 - Install the 1Password CLI: https://developer.1password.com/docs/cli/get-started/
 - Ensure `op` is in your PATH or specify the path using `op_path` parameter
+
+**4. Python Environment Mismatch**
+```
+ModuleNotFoundError: No module named 'op_python'
+```
+- Ensure `op-python` is installed in the same Python environment as Ansible
+- If using a virtual environment, verify it's activated and install dependencies there
+- Check with: `python -c "import op_python; print('op-python found')"`
 
 ### Debug Mode
 
