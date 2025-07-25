@@ -1,0 +1,42 @@
+namespace: ivorynomad
+name: onepassword
+version: 1.0.0
+
+readme: README.md
+authors:
+  - IvoryNomad
+
+description: Ansible collection for 1Password CLI integration
+license_file: 'LICENSE'
+
+tags:
+  - onepassword
+  - password_manager
+  - secrets
+  - security
+  - cli
+  - lookup
+
+# Installing collections with ansible-galaxy is only supported in ansible-core>=2.13.9
+requires_ansible: ">=2.13.9"
+# Ansible 2.13.9+ supports Python 3.8+, but op-python needs 3.9+
+
+dependencies: {}
+
+repository: https://github.com/IvoryNomad/ansible-onepassword
+documentation: https://github.com/IvoryNomad/ansible-onepassword
+homepage: https://github.com/IvoryNomad/ansible-onepassword
+issues: https://github.com/IvoryNomad/ansible-onepassword/issues
+
+build_ignore:
+  - "*.pyc"
+  - "*.retry"
+  - ".git"
+  - ".github"
+  - ".gitignore"
+  - ".DS_Store"
+  - "Thumbs.db"
+  - "tests/"
+  - "dev-requirements.txt"
+
+manifest: null
