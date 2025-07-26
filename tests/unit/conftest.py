@@ -3,7 +3,6 @@
 pytest configuration for unit tests.
 """
 import sys
-import os  # noqa: F401
 import types
 from pathlib import Path
 

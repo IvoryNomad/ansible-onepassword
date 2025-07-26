@@ -19,7 +19,7 @@ DOCUMENTATION = """
         - Supports both Service Account tokens and 1Password Connect authentication
     options:
         _terms:
-            description: 
+            description:
                 - 1Password item name, UUID, or secret reference
                 - Can be item name/UUID or full secret reference like "op://vault/item/field"
             required: True
@@ -88,8 +88,6 @@ _raw:
 from ansible.plugins.lookup import LookupBase
 from ansible.errors import AnsibleError, AnsibleLookupError
 from ansible.utils.display import Display
-import json  # noqa: F401
-from typing import List, Any, Optional, Dict  # noqa: F401
 
 try:
     from op_python import OpClient, OnePasswordError
