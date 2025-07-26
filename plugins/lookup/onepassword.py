@@ -12,7 +12,9 @@ from typing import List, Any, Optional, Dict
 try:
     from op_python import OpClient, OnePasswordError
 except ImportError:
-    raise AnsibleError("The op-python library is required for this lookup plugin. Install with: pip install op-python")
+    raise AnsibleError(
+        "The op-python library is required for this lookup plugin. Install with: pip install op-python"
+    )
 
 display = Display()
 
@@ -94,97 +96,113 @@ _raw:
 
 
 class LookupModule(LookupBase):
-    
+
     def __init__(self, loader=None, templar=None, **kwargs):
         super().__init__(loader, templar, **kwargs)
         self._op_client = None
-    
+
     def _get_client(self, **kwargs):
         """Get or create OpClient instance with specified options"""
         if self._op_client is None:
             client_options = {
-                'op_path': kwargs.get('op_path', 'op'),
-                'use_dotenv': kwargs.get('use_dotenv', False),
-                'dotenv_path': kwargs.get('dotenv_path', '.env'),
-                'dotenv_override': kwargs.get('dotenv_override', False)
+                "op_path": kwargs.get("op_path", "op"),
+                "use_dotenv": kwargs.get("use_dotenv", False),
+                "dotenv_path": kwargs.get("dotenv_path", ".env"),
+                "dotenv_override": kwargs.get("dotenv_override", False),
             }
-            
+
             try:
                 self._op_client = OpClient(**client_options)
             except OnePasswordError as e:
                 raise AnsibleError(f"Failed to initialize 1Password client: {e}")
-        
+
         return self._op_client
 
     def run(self, terms, variables=None, **kwargs):
         """Main lookup method"""
         ret = []
-        
+
+        # Handle empty terms early - no need to initialize client
+        if not terms:
+            return ret
+
         # Get client options from kwargs
-        vault = kwargs.get('vault')
-        field = kwargs.get('field', 'password')
-        
+        vault = kwargs.get("vault")
+        field = kwargs.get("field", "password")
+
         # Get OpClient instance
         op = self._get_client(**kwargs)
-        
+
         for term in terms:
             try:
                 # Check if term is a secret reference (starts with op://)
-                if term.startswith('op://'):
+                if term.startswith("op://"):
                     # Use secret reference syntax
-                    display.vvv(f"onepassword lookup: getting secret reference '{term}'")
+                    display.vvv(
+                        f"onepassword lookup: getting secret reference '{term}'"
+                    )
                     value = op.get_secret(term)
                 else:
                     # Traditional item + field lookup
-                    display.vvv(f"onepassword lookup: getting item '{term}' field '{field}' from vault '{vault}'")
-                    
+                    display.vvv(
+                        f"onepassword lookup: getting item '{term}' field '{field}' from vault '{vault}'"
+                    )
+
                     # Get the complete item
                     item = op.get_item(term, vault=vault)
-                    
+
                     # Extract the requested field
                     value = self._extract_field_from_item(item, field)
-                
+
                 if value is None:
-                    raise AnsibleLookupError(f"Field '{field}' not found in item '{term}'")
-                
+                    raise AnsibleLookupError(
+                        f"Field '{field}' not found in item '{term}'"
+                    )
+
                 ret.append(value)
-                
+
             except OnePasswordError as e:
-                raise AnsibleLookupError(f"Failed to retrieve 1Password item '{term}': {e}")
+                raise AnsibleLookupError(
+                    f"Failed to retrieve 1Password item '{term}': {e}"
+                )
             except Exception as e:
                 raise AnsibleLookupError(f"Unexpected error retrieving '{term}': {e}")
-        
+
         return ret
-    
-    def _extract_field_from_item(self, item: Dict[str, Any], field_name: str) -> Optional[str]:
+
+    def _extract_field_from_item(
+        self, item: Dict[str, Any], field_name: str
+    ) -> Optional[str]:
         """Extract a specific field value from a 1Password item"""
-        
+
         # Handle different item structures that might be returned
-        if 'fields' in item:
+        if "fields" in item:
             # Look through the fields array
-            for field in item['fields']:
+            for field in item["fields"]:
                 # Check various possible field identification methods
-                if (field.get('label', '').lower() == field_name.lower() or 
-                    field.get('id', '').lower() == field_name.lower() or
-                    field.get('type', '').lower() == field_name.lower()):
-                    return field.get('value')
-        
+                if (
+                    field.get("label", "").lower() == field_name.lower()
+                    or field.get("id", "").lower() == field_name.lower()
+                    or field.get("type", "").lower() == field_name.lower()
+                ):
+                    return field.get("value")
+
         # For common field names, try direct access
         common_fields = {
-            'password': ['password', 'passwd', 'pass'],
-            'username': ['username', 'user', 'login'],
-            'email': ['email', 'e-mail'],
-            'url': ['url', 'website', 'link'],
-            'notes': ['notes', 'note']
+            "password": ["password", "passwd", "pass"],
+            "username": ["username", "user", "login"],
+            "email": ["email", "e-mail"],
+            "url": ["url", "website", "link"],
+            "notes": ["notes", "note"],
         }
-        
+
         # Try direct field access in item
         for field_variant in common_fields.get(field_name.lower(), [field_name]):
             if field_variant in item:
                 return item[field_variant]
-        
+
         # If it's a simple field request for password and item has a 'password' key
-        if field_name.lower() == 'password' and 'password' in item:
-            return item['password']
-            
+        if field_name.lower() == "password" and "password" in item:
+            return item["password"]
+
         return None
