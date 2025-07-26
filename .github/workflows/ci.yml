@@ -192,7 +192,7 @@ jobs:
 
       - name: Run pylint (Python linting)
         run: |
-          pylint plugins/ tests/ --max-line-length=160 --disable=missing-docstring
+          pylint plugins/ tests/
 
       - name: Run yamllint
         run: |

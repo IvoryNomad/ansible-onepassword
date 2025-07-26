@@ -1,0 +1,19 @@
+[MASTER]
+load-plugins=pylint.extensions.mccabe
+
+[MESSAGES CONTROL]
+# Disable rules that conflict with Ansible plugin conventions
+disable=
+    wrong-import-position,     # Ansible requires imports after DOCUMENTATION
+    wrong-import-order,        # Ansible import order differs from standard Python
+    import-outside-toplevel,   # Sometimes needed in tests/conditional imports
+    raise-missing-from,        # Ansible doesn't always use exception chaining
+    missing-docstring,         # Ansible has its own documentation format
+    too-few-public-methods,    # Common in Ansible plugins
+    unused-import              # Already handled by ansible-test sanity
+
+[FORMAT]
+max-line-length=160
+
+[DESIGN]
+max-complexity=20

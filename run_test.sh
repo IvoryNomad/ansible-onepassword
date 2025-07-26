@@ -91,13 +91,13 @@ else
     print_warning "Black not installed. Install with: pip install black"
 fi
 
-if command -v flake8 &> /dev/null; then
-    echo "  - Running flake8..."
-    flake8 plugins/ tests/ --max-line-length=88 --extend-ignore=E203,W503 || {
-        print_warning "flake8 issues found."
+if command -v pylint &> /dev/null; then
+    echo "  - Running pylint ..."
+    pylint plugins/ tests/ || {
+        print_warning "pylint issues found."
     }
 else
-    print_warning "flake8 not installed. Install with: pip install flake8"
+    print_warning "pylint not installed. Install with: pip install pylint"
 fi
 
 # Run unit tests
