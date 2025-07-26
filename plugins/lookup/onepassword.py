@@ -11,15 +11,12 @@ from typing import List, Any, Optional, Dict  # noqa: F401
 
 try:
     from op_python import OpClient, OnePasswordError
+
+    HAS_OP_PYTHON = True
 except ImportError:
-    raise AnsibleError(
-        " ".join(
-            [
-                "The op-python library is required for this lookup plugin.",
-                "Install with: pip install op-python",
-            ]
-        )
-    )
+    HAS_OP_PYTHON = False
+    OpClient = None
+    OnePasswordError = None
 
 display = Display()
 
@@ -110,6 +107,16 @@ class LookupModule(LookupBase):
 
     def _get_client(self, **kwargs):
         """Get or create OpClient instance with specified options"""
+        if not HAS_OP_PYTHON:
+            raise AnsibleError(
+                " ".join(
+                    [
+                        "The op-python library is required for this lookup plugin.",
+                        "Install with: pip install op-python",
+                    ]
+                )
+            )
+
         if self._op_client is None:
             client_options = {
                 "op_path": kwargs.get("op_path", "op"),
