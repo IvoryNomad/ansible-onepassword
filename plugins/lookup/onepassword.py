@@ -88,6 +88,7 @@ _raw:
 from ansible.plugins.lookup import LookupBase
 from ansible.errors import AnsibleError, AnsibleLookupError
 from ansible.utils.display import Display
+from typing import Any, Optional, Dict
 
 try:
     from op_python import OpClient, OnePasswordError
