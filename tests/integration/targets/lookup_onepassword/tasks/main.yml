@@ -3,6 +3,17 @@
 # Integration tests for onepassword lookup plugin
 # These tests run without requiring real 1Password credentials
 
+- name: Setup mock 1Password CLI for testing
+  block:
+    - name: Create mock op binary
+      ansible.builtin.copy:
+        dest: /tmp/mock-op
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          echo "Mock 1Password CLI for testing"
+          exit 1
+
 - name: Test plugin loads without error
   block:
   - name: Attempt to use plugin with invalid reference (should fail gracefully)
