@@ -6,18 +6,24 @@
 from ansible.plugins.lookup import LookupBase
 from ansible.errors import AnsibleError, AnsibleLookupError
 from ansible.utils.display import Display
-import json
-from typing import List, Any, Optional, Dict
+import json  # noqa: F401
+from typing import List, Any, Optional, Dict  # noqa: F401
 
 try:
     from op_python import OpClient, OnePasswordError
 except ImportError:
     raise AnsibleError(
-        "The op-python library is required for this lookup plugin. Install with: pip install op-python"
+        " ".join(
+            [
+                "The op-python library is required for this lookup plugin.",
+                "Install with: pip install op-python",
+            ]
+        )
     )
 
 display = Display()
 
+# flake8: noqa
 DOCUMENTATION = """
     name: onepassword
     author: Ansible User
@@ -59,6 +65,7 @@ DOCUMENTATION = """
         - op-python library
         - 1Password CLI (op) installed and authenticated
 """
+# flake8: enable
 
 EXAMPLES = """
 # Get password field from an item by name

@@ -3,9 +3,9 @@
 Unit tests for the onepassword lookup plugin.
 """
 import pytest
-import sys
-from unittest.mock import Mock, patch, MagicMock
-from ansible.errors import AnsibleError, AnsibleLookupError
+import sys  # noqa: F401
+from unittest.mock import Mock, patch, MagicMock  # noqa: F401
+from ansible.errors import AnsibleError, AnsibleLookupError  # noqa: F401
 
 # Import the plugin directly for testing
 try:
