@@ -18,7 +18,7 @@
   block:
   - name: Attempt to use plugin with invalid reference (should fail gracefully)
     ansible.builtin.set_fact:
-      test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference'),
+      test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference',
                       op_path='/tmp/mock-op') | default('plugin_loaded_but_failed') }}"
     ignore_errors: true
     register: invalid_lookup
@@ -39,7 +39,7 @@
 
   - name: Test lookup with mock credentials (should fail but with auth error, not plugin error)
     ansible.builtin.set_fact:
-      mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password'),
+      mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password',
                       op_path='/tmp/mock-op') | default('no_real_1password') }}"
     environment: "{{ mock_env }}"
     ignore_errors: true
