@@ -3,7 +3,7 @@
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-ivorynomad.onepassword-blue.svg)](https://galaxy.ansible.com/ivorynomad/onepassword)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![CI](https://github.com/IvoryNomad/ansible-onepassword/workflows/CI/badge.svg)](https://github.com/IvoryNomad/ansible-onepassword/actions)
-[![codecov](https://codecov.io/gh/IvoryNomad/ansible-onepassword/branch/main/graph/badge.svg)](https://codecov.io/gh/IvoryNomad/ansible-onepassword)
+[![codecov](https://codecov.io/gh/IvoryNomad/ansible-onepassword/branch/master/graph/badge.svg)](https://codecov.io/gh/IvoryNomad/ansible-onepassword)
 
 An Ansible collection providing lookup plugins for seamless 1Password CLI integration. Securely retrieve secrets from your 1Password vaults directly in your Ansible playbooks and roles.
 

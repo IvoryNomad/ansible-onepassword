@@ -3,9 +3,9 @@ name: CI
 # When to run this workflow
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
   # Allow manual triggering
   workflow_dispatch:
 
@@ -206,7 +206,7 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
 
     steps:
       - name: Checkout code
