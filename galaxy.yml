@@ -5,18 +5,18 @@ version: 1.0.0
 
 readme: README.md
 authors:
-  - IvoryNomad
+- IvoryNomad
 
 description: Ansible collection for 1Password CLI integration
 license_file: 'LICENSE'
 
 tags:
-  - onepassword
-  - password_manager
-  - secrets
-  - security
-  - cli
-  - lookup
+- onepassword
+- password_manager
+- secrets
+- security
+- cli
+- lookup
 
 dependencies: {}
 
@@ -26,12 +26,12 @@ homepage: https://github.com/IvoryNomad/ansible-onepassword
 issues: https://github.com/IvoryNomad/ansible-onepassword/issues
 
 build_ignore:
-  - "*.pyc"
-  - "*.retry"
-  - ".git"
-  - ".github"
-  - ".gitignore"
-  - ".DS_Store"
-  - "Thumbs.db"
-  - "tests/"
-  - "dev-requirements.txt"
+- "*.pyc"
+- "*.retry"
+- ".git"
+- ".github"
+- ".gitignore"
+- ".DS_Store"
+- "Thumbs.db"
+- "tests/"
+- "dev-requirements.txt"
