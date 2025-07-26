@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -14,8 +13,7 @@
 # flake8: noqa
 DOCUMENTATION = """
     name: onepassword
-    author:
-    - IvoryNomad
+    author: Nathan Eric Norman (@IvoryNomad)
     version_added: "1.0"
     short_description: fetch secrets from 1Password using op-python
     description:

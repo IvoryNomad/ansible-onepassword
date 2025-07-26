@@ -100,7 +100,9 @@ fi
 
 # Run unit tests
 print_status "Running unit tests..."
-export PYTHONPATH="${PYTHONPATH}:$(pwd):$(pwd)/plugins"
+PWD_PATH=$(pwd)
+PLUGINS_PATH="$PWD_PATH/plugins"
+export PYTHONPATH="${PYTHONPATH}:${PWD_PATH}:${PLUGINS_PATH}"
 
 # Run tests with verbose output to help diagnose issues
 pytest tests/unit/ -v --tb=short --capture=no || {
