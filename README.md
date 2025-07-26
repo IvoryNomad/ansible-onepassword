@@ -18,7 +18,8 @@ An Ansible collection providing lookup plugins for seamless 1Password CLI integr
 ## Requirements
 
 - **Python 3.9+**
-- **Ansible 2.13.9+**
+- **Ansible 2.15.0+** (officially required)
+- May work with Ansible 2.13.9+ but not officially supported
 - **1Password CLI** (`op`) installed and accessible in PATH
 - **Valid 1Password authentication** (Service Account token or Connect credentials)
 
