@@ -11,8 +11,17 @@
       mode: '0755'
       content: |
         #!/bin/bash
-        echo "Mock 1Password CLI for testing"
-        exit 1
+        # Mock 1Password CLI for testing
+        case "$1" in
+          --version)
+            echo "2.20.0"
+            exit 0
+            ;;
+          *)
+            echo "Error: Mock 1Password CLI - operation failed"
+            exit 1
+            ;;
+        esac
 
 - name: Test plugin loads without error
   block:
