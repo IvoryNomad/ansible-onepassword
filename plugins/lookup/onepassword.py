@@ -1,29 +1,16 @@
-# plugins/lookup/onepassword.py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Copyright (c) 2025 IvoryNomad
+# SPDX-License-Identifier: MIT
+
 """
 1Password lookup plugin using IvoryNomad/op-python OpClient class
 """
 
-from ansible.plugins.lookup import LookupBase
-from ansible.errors import AnsibleError, AnsibleLookupError
-from ansible.utils.display import Display
-import json  # noqa: F401
-from typing import List, Any, Optional, Dict  # noqa: F401
-
-try:
-    from op_python import OpClient, OnePasswordError
-
-    HAS_OP_PYTHON = True
-except ImportError:
-    HAS_OP_PYTHON = False
-    OpClient = None
-    OnePasswordError = None
-
-display = Display()
-
 # flake8: noqa
 DOCUMENTATION = """
     name: onepassword
-    author: Ansible User
+    author: IvoryNomad
     version_added: "1.0"
     short_description: fetch secrets from 1Password using op-python
     description:
@@ -97,6 +84,23 @@ _raw:
     description: The value of the specified field from the 1Password item
     type: string
 """
+
+from ansible.plugins.lookup import LookupBase
+from ansible.errors import AnsibleError, AnsibleLookupError
+from ansible.utils.display import Display
+import json  # noqa: F401
+from typing import List, Any, Optional, Dict  # noqa: F401
+
+try:
+    from op_python import OpClient, OnePasswordError
+
+    HAS_OP_PYTHON = True
+except ImportError:
+    HAS_OP_PYTHON = False
+    OpClient = None
+    OnePasswordError = None
+
+display = Display()
 
 
 class LookupModule(LookupBase):
