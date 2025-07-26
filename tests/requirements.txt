@@ -1,0 +1,11 @@
+# File: tests/requirements.txt
+# Test dependencies
+pytest>=7.0.0
+pytest-mock>=3.10.0
+pytest-cov>=4.0.0
+
+# Ansible testing
+ansible-core>=2.13.9
+
+# Collection dependencies  
+op-python>=0.1.0,<1.0.0
