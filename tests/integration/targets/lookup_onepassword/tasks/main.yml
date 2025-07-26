@@ -3,6 +3,12 @@
 # Integration tests for onepassword lookup plugin
 # These tests run without requiring real 1Password credentials
 
+- name: Set up global mock environment variables
+  ansible.builtin.set_fact:
+    mock_env:
+      OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+  delegate_to: localhost
+
 - name: Setup mock 1Password CLI for testing
   block:
   - name: Create mock op binary
@@ -25,11 +31,6 @@
 
 - name: Test plugin loads without error
   block:
-  - name: Set up mock environment variables
-    ansible.builtin.set_fact:
-      mock_env:
-        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-
   - name: Attempt to use plugin with invalid reference (should fail gracefully)
     ansible.builtin.set_fact:
       test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference',
@@ -63,11 +64,6 @@
 
 - name: Test plugin parameter validation
   block:
-  - name: Set up mock environment variables
-    ansible.builtin.set_fact:
-      mock_env:
-        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-
   - name: Test with empty string
     ansible.builtin.set_fact:
       empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '',
@@ -84,11 +80,6 @@
 
 - name: Test plugin with custom parameters
   block:
-  - name: Set up mock environment variables
-    ansible.builtin.set_fact:
-      mock_env:
-        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-
   - name: Test custom op_path parameter
     ansible.builtin.set_fact:
       custom_path_result: "{{ lookup('ivorynomad.onepassword.onepassword',
@@ -107,11 +98,6 @@
 
 - name: Test multiple secret references
   block:
-  - name: Set up mock environment variables
-    ansible.builtin.set_fact:
-      mock_env:
-        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-
   - name: Test multiple invalid references
     ansible.builtin.set_fact:
       multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2',
