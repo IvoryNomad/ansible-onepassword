@@ -1,7 +1,6 @@
+#!/bin/bash -eu
 # File: test.sh
 # Simple test runner script for local development
-
-set -e
 
 echo "🧪 Running tests for ansible-onepassword collection..."
 
