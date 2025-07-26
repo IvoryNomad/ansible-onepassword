@@ -145,7 +145,7 @@ jobs:
           ansible-galaxy collection build
 
       - name: Upload collection artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: collection-tarball
           path: ivorynomad-onepassword-*.tar.gz
@@ -227,7 +227,7 @@ jobs:
           bandit -r plugins/ -f json -o bandit-report.json || true
 
       - name: Upload Bandit report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bandit-report
           path: bandit-report.json
