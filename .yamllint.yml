@@ -6,22 +6,22 @@ rules:
   line-length:
     max: 120
     level: warning
-  
+
   # Allow longer lines in certain contexts
   comments:
     min-spaces-from-content: 1
-  
+
   # Be more lenient with indentation for readability
   indentation:
     spaces: 2
     indent-sequences: true
     check-multi-line-strings: false
-  
+
   # Allow multiple spaces for alignment
   brackets:
     min-spaces-inside: 0
     max-spaces-inside: 1
-  
+
   # Allow empty values (common in Ansible)
   empty-values:
     forbid-in-block-mappings: false
