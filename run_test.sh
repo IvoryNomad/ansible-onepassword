@@ -128,7 +128,6 @@ if command -v ansible-test &> /dev/null; then
     if command -v docker &> /dev/null || command -v podman &> /dev/null; then
         print_status "Container runtime detected, running in containers..."
         # Create a temporary collections structure for ansible-test
-        TEMP_COLLECTIONS_DIR
         TEMP_COLLECTIONS_DIR=$(mktemp -d)
         COLLECTION_DIR="$TEMP_COLLECTIONS_DIR/ansible_collections/ivorynomad/onepassword"
         
