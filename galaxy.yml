@@ -38,5 +38,3 @@ build_ignore:
   - "Thumbs.db"
   - "tests/"
   - "dev-requirements.txt"
-
-manifest: null
