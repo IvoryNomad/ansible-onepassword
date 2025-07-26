@@ -25,10 +25,16 @@
 
 - name: Test plugin loads without error
   block:
+  - name: Set up mock environment variables
+    ansible.builtin.set_fact:
+      mock_env:
+        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+
   - name: Attempt to use plugin with invalid reference (should fail gracefully)
     ansible.builtin.set_fact:
       test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference',
                       op_path='/tmp/mock-op') | default('plugin_loaded_but_failed') }}"
+    environment: "{{ mock_env }}"
     ignore_errors: true
     register: invalid_lookup
 
@@ -41,11 +47,6 @@
 
 - name: Test plugin with mock environment (if available)
   block:
-  - name: Set up mock environment variables
-    ansible.builtin.set_fact:
-      mock_env:
-        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-
   - name: Test lookup with mock credentials (should fail but with auth error, not plugin error)
     ansible.builtin.set_fact:
       mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password',
@@ -62,11 +63,17 @@
 
 - name: Test plugin parameter validation
   block:
+  - name: Set up mock environment variables
+    ansible.builtin.set_fact:
+      mock_env:
+        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+
   - name: Test with empty string
     ansible.builtin.set_fact:
       empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '',
                       op_path='/tmp/mock-op') | default('handled_empty') }}"
     ignore_errors: true
+    environment: "{{ mock_env }}"
     register: empty_lookup
 
   - name: Verify empty string handling
@@ -77,12 +84,18 @@
 
 - name: Test plugin with custom parameters
   block:
+  - name: Set up mock environment variables
+    ansible.builtin.set_fact:
+      mock_env:
+        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+
   - name: Test custom op_path parameter
     ansible.builtin.set_fact:
       custom_path_result: "{{ lookup('ivorynomad.onepassword.onepassword',
                             'op://Test/Demo/password',
                             op_path='/tmp/mock-op') |
                             default('custom_path_tested') }}"
+    environment: "{{ mock_env }}"
     ignore_errors: true
     register: custom_path_lookup
 
@@ -94,10 +107,16 @@
 
 - name: Test multiple secret references
   block:
+  - name: Set up mock environment variables
+    ansible.builtin.set_fact:
+      mock_env:
+        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+
   - name: Test multiple invalid references
     ansible.builtin.set_fact:
       multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2',
                       op_path='/tmp/mock-op') | default('multi_handled') }}"
+    environment: "{{ mock_env }}"
     ignore_errors: true
     register: multi_lookup
 
