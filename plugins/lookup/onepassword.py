@@ -1,5 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+# Just kidding, we're not really using GPLv3 - but ansible sanity checks are not totally sane
 # Copyright (c) 2025 IvoryNomad
 # SPDX-License-Identifier: MIT
 
@@ -10,7 +14,8 @@
 # flake8: noqa
 DOCUMENTATION = """
     name: onepassword
-    author: IvoryNomad
+    author:
+    - IvoryNomad
     version_added: "1.0"
     short_description: fetch secrets from 1Password using op-python
     description:

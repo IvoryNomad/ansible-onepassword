@@ -10,7 +10,8 @@ disable=
     raise-missing-from,        # Ansible doesn't always use exception chaining
     missing-docstring,         # Ansible has its own documentation format
     too-few-public-methods,    # Common in Ansible plugins
-    unused-import              # Already handled by ansible-test sanity
+    unused-import,             # Already handled by ansible-test sanity
+    import-error               # CI environment may not have all dependencies
 
 [FORMAT]
 max-line-length=160

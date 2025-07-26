@@ -48,7 +48,7 @@ pip install -r tests/requirements.txt
 
 # Verify Python imports work
 print_status "Verifying Python imports..."
-python -c "
+if not python -c "
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / 'plugins'))
@@ -73,9 +73,7 @@ try:
 except ImportError as e:
     print(f'✗ Ansible core not available: {e}')
     sys.exit(1)
-"
-
-if [[ $? -ne 0 ]]; then
+"; then
     print_error "Import verification failed. Check error messages above."
     exit 1
 fi
@@ -130,12 +128,13 @@ if command -v ansible-test &> /dev/null; then
     if command -v docker &> /dev/null || command -v podman &> /dev/null; then
         print_status "Container runtime detected, running in containers..."
         # Create a temporary collections structure for ansible-test
+        TEMP_COLLECTIONS_DIR
         TEMP_COLLECTIONS_DIR=$(mktemp -d)
         COLLECTION_DIR="$TEMP_COLLECTIONS_DIR/ansible_collections/ivorynomad/onepassword"
         
         # Copy collection to temporary location
         mkdir -p "$COLLECTION_DIR"
-        cp -r * "$COLLECTION_DIR/" 2>/dev/null || true
+        cp -r ./* "$COLLECTION_DIR/" 2>/dev/null || true
         
         cd "$COLLECTION_DIR"
         ansible-test sanity --docker -v plugins/lookup/onepassword.py || {
@@ -150,7 +149,7 @@ if command -v ansible-test &> /dev/null; then
         TEMP_COLLECTIONS_DIR=$(mktemp -d)
         COLLECTION_DIR="$TEMP_COLLECTIONS_DIR/ansible_collections/ivorynomad/onepassword"
         mkdir -p "$COLLECTION_DIR"
-        cp -r * "$COLLECTION_DIR/" 2>/dev/null || true
+        cp -r ./* "$COLLECTION_DIR/" 2>/dev/null || true
         
         cd "$COLLECTION_DIR"
         ansible-test integration --docker -v lookup_onepassword || {
