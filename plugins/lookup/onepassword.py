@@ -14,7 +14,7 @@
 DOCUMENTATION = """
     name: onepassword
     author: Nathan Eric Norman (@IvoryNomad)
-    version_added: "1.0"
+    version_added: "1.0.0"
     short_description: fetch secrets from 1Password using op-python
     description:
         - This lookup returns values from 1Password items using the IvoryNomad/op-python OpClient class

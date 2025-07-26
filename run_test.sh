@@ -1,4 +1,3 @@
-#!/bin/bash
 # File: test.sh
 # Simple test runner script for local development
 
