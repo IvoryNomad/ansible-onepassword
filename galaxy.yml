@@ -18,10 +18,6 @@ tags:
   - cli
   - lookup
 
-# Installing collections with ansible-galaxy is only supported in ansible-core>=2.13.9
-requires_ansible: ">=2.13.9"
-# Ansible 2.13.9+ supports Python 3.8+, but op-python needs 3.9+
-
 dependencies: {}
 
 repository: https://github.com/IvoryNomad/ansible-onepassword

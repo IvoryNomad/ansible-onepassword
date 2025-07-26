@@ -5,7 +5,7 @@ extends: default
 rules:
   line-length:
     max: 120
-    level: warning
+    level: error
 
   # Allow longer lines in certain contexts
   comments:
@@ -14,7 +14,7 @@ rules:
   # Be more lenient with indentation for readability
   indentation:
     spaces: 2
-    indent-sequences: true
+    indent-sequences: false
     check-multi-line-strings: false
 
   # Allow multiple spaces for alignment
@@ -26,6 +26,14 @@ rules:
   empty-values:
     forbid-in-block-mappings: false
     forbid-in-flow-mappings: false
+
+  # ansible-lint requirements
+  comments-indentation: false
+  braces:
+    max-spaces-inside: 1
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
 
 # Ignore certain files
 ignore: |
