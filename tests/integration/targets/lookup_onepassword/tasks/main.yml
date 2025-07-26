@@ -5,14 +5,14 @@
 
 - name: Setup mock 1Password CLI for testing
   block:
-    - name: Create mock op binary
-      ansible.builtin.copy:
-        dest: /tmp/mock-op
-        mode: '0755'
-        content: |
-          #!/bin/bash
-          echo "Mock 1Password CLI for testing"
-          exit 1
+  - name: Create mock op binary
+    ansible.builtin.copy:
+      dest: /tmp/mock-op
+      mode: '0755'
+      content: |
+        #!/bin/bash
+        echo "Mock 1Password CLI for testing"
+        exit 1
 
 - name: Test plugin loads without error
   block:
@@ -29,6 +29,8 @@
       - "'invalid' in invalid_lookup.msg or 'format' in invalid_lookup.msg or
          'reference' in invalid_lookup.msg"
       fail_msg: "Plugin should reject invalid secret references with clear error message"
+    vars:
+      op_path: /tmp/mock-op
 
 - name: Test plugin with mock environment (if available)
   block:
