@@ -5,80 +5,89 @@
 
 - name: Test plugin loads without error
   block:
-    - name: Attempt to use plugin with invalid reference (should fail gracefully)
-      set_fact:
-        test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference') | default('plugin_loaded_but_failed') }}"
-      ignore_errors: true
-      register: invalid_lookup
+  - name: Attempt to use plugin with invalid reference (should fail gracefully)
+    ansible.builtin.set_fact:
+      test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference') |
+                      default('plugin_loaded_but_failed') }}"
+    ignore_errors: true
+    register: invalid_lookup
 
-    - name: Verify plugin handles invalid references appropriately
-      assert:
-        that:
-          - invalid_lookup is failed
-          - "'invalid' in invalid_lookup.msg or 'format' in invalid_lookup.msg or 'reference' in invalid_lookup.msg"
-        fail_msg: "Plugin should reject invalid secret references with clear error message"
+  - name: Verify plugin handles invalid references appropriately
+    ansible.builtin.assert:
+      that:
+      - "'invalid' in invalid_lookup.msg or 'format' in invalid_lookup.msg or
+         'reference' in invalid_lookup.msg"
+      fail_msg: "Plugin should reject invalid secret references with clear error message"
 
 - name: Test plugin with mock environment (if available)
   block:
-    - name: Set up mock environment variables
-      set_fact:
-        mock_env:
-          OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+  - name: Set up mock environment variables
+    ansible.builtin.set_fact:
+      mock_env:
+        OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
 
-    - name: Test lookup with mock credentials (should fail but with auth error, not plugin error)
-      set_fact:
-        mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password') | default('no_real_1password') }}"
-      environment: "{{ mock_env }}"
-      ignore_errors: true
-      register: mock_lookup
+  - name: Test lookup with mock credentials (should fail but with auth error, not plugin error)
+    ansible.builtin.set_fact:
+      mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password') |
+                      default('no_real_1password') }}"
+    environment: "{{ mock_env }}"
+    ignore_errors: true
+    register: mock_lookup
 
-    - name: Verify plugin attempts authentication (even if it fails)
-      assert:
-        that:
-          - mock_lookup is failed or mock_result == 'no_real_1password'
-        fail_msg: "Plugin should attempt to connect to 1Password even with mock credentials"
+  - name: Verify plugin attempts authentication (even if it fails)
+    ansible.builtin.assert:
+      that:
+      - mock_lookup is failed or mock_result == 'no_real_1password'
+      fail_msg: "Plugin should attempt to connect to 1Password even with mock credentials"
 
 - name: Test plugin parameter validation
   block:
-    - name: Test with empty string
-      set_fact:
-        empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '') | default('handled_empty') }}"
-      ignore_errors: true
-      register: empty_lookup
+  - name: Test with empty string
+    ansible.builtin.set_fact:
+      empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '') |
+                      default('handled_empty') }}"
+    ignore_errors: true
+    register: empty_lookup
 
-    - name: Verify empty string handling
-      assert:
-        that:
-          - empty_lookup is failed or empty_result == 'handled_empty'
-        fail_msg: "Plugin should handle empty secret references appropriately"
+  - name: Verify empty string handling
+    ansible.builtin.assert:
+      that:
+      - empty_lookup is failed or empty_result == 'handled_empty'
+      fail_msg: "Plugin should handle empty secret references appropriately"
 
 - name: Test plugin with custom parameters
   block:
-    - name: Test custom op_path parameter
-      set_fact:
-        custom_path_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Demo/password', op_path='/nonexistent/op') | default('custom_path_tested') }}"
-      ignore_errors: true
-      register: custom_path_lookup
+  - name: Test custom op_path parameter
+    ansible.builtin.set_fact:
+      custom_path_result: "{{ lookup('ivorynomad.onepassword.onepassword',
+                            'op://Test/Demo/password',
+                            op_path='/nonexistent/op') |
+                            default('custom_path_tested') }}"
+    ignore_errors: true
+    register: custom_path_lookup
 
-    - name: Verify custom parameters are accepted
-      # Even if this fails due to missing op binary, it should accept the parameter
-      debug:
-        msg: "Custom path parameter test completed: {{ custom_path_lookup.msg | default('success') }}"
+  - name: Verify custom parameters are accepted
+    # Even if this fails due to missing op binary, it should accept the parameter
+    ansible.builtin.debug:
+      msg: "Custom path parameter test completed: {{ custom_path_lookup.msg |
+              default('success') }}"
 
 - name: Test multiple secret references
   block:
-    - name: Test multiple invalid references
-      set_fact:
-        multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2') | default('multi_handled') }}"
-      ignore_errors: true
-      register: multi_lookup
+  - name: Test multiple invalid references
+    ansible.builtin.set_fact:
+      multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2') |
+                      default('multi_handled') }}"
+    ignore_errors: true
+    register: multi_lookup
 
-    - name: Verify multiple references handling
-      assert:
-        that:
-          - multi_lookup is failed or multi_result == 'multi_handled'
-        fail_msg: "Plugin should handle multiple secret references"
+  - name: Verify multiple references handling
+    ansible.builtin.assert:
+      that:
+      - multi_lookup is failed or multi_result == 'multi_handled'
+      fail_msg: "Plugin should handle multiple secret references"
 
 - name: Summary
-  debug:
-    msg: "All integration tests completed successfully. Plugin handles errors gracefully and accepts expected parameters."
+  ansible.builtin.debug:
+    msg: "All integration tests completed successfully. Plugin handles
+            errors gracefully and accepts expected parameters."
