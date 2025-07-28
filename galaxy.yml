@@ -12,11 +12,13 @@ license_file: 'LICENSE'
 
 tags:
 - onepassword
-- password_manager
 - secrets
 - security
-- cli
+- vault
 - lookup
+- cli
+- authentication
+- password_management
 
 dependencies: {}
 
@@ -26,12 +28,16 @@ homepage: https://github.com/IvoryNomad/ansible-onepassword
 issues: https://github.com/IvoryNomad/ansible-onepassword/issues
 
 build_ignore:
-- "*.pyc"
-- "*.retry"
-- ".git"
-- ".github"
-- ".gitignore"
-- ".DS_Store"
-- "Thumbs.db"
-- "tests/"
-- "dev-requirements.txt"
+  - .github/
+  - .gitignore
+  - .git/
+  - tests/
+  - '*.tar.gz'
+  - '*.log'
+  - .pytest_cache/
+  - __pycache__/
+  - '*.pyc'
+  - .coverage
+  - coverage.xml
+  - .vscode/
+  - .idea/
