@@ -144,6 +144,10 @@ jobs:
         run: |
           ansible-galaxy collection build
 
+      - name: Install collection dependencies
+        run: |
+          pip install op-python>=0.1.0,<1.0.0
+
       - name: Upload collection artifact
         uses: actions/upload-artifact@v4
         with:
@@ -160,10 +164,22 @@ jobs:
           import sys
           sys.path.insert(0, '~/.ansible/collections/ansible_collections/ivorynomad/onepassword/plugins/lookup')
           try:
-              import onepassword
-              print('✓ Collection installed and plugin importable')
+              import op_python
+              print('✓ Python dependency op_python available')
           except ImportError as e:
-              print(f'✗ Failed to import plugin: {e}')
+              print(f'✗ Failed to import op_python: {e}')
+              sys.exit(1)
+          # Test that the collection is properly installed
+          try:
+              import os
+              collection_path = os.path.expanduser('~/.ansible/collections/ansible_collections/ivorynomad/onepassword')
+              if os.path.exists(collection_path):
+                  print('✓ Collection installed successfully')
+              else:
+                  print('✗ Collection path not found')
+                  sys.exit(1)
+          except Exception as e:
+              print(f'✗ Collection validation failed: {e}')
               sys.exit(1)
           "
 
