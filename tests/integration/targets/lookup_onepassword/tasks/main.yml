@@ -48,7 +48,8 @@
   - name: Test lookup with mock credentials (should fail but with auth error, not plugin error)
     ansible.builtin.set_fact:
       mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password',
-                      op_path='/tmp/mock-op') | default('no_real_1password') }}"
+                      op_path='/tmp/mock-op'),
+                      use_dotenv=true) | default('no_real_1password') }}"
     ignore_errors: true
     register: mock_lookup
 
@@ -63,7 +64,8 @@
   - name: Test with empty string
     ansible.builtin.set_fact:
       empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '',
-                      op_path='/tmp/mock-op') | default('handled_empty') }}"
+                      op_path='/tmp/mock-op'),
+                      use_dotenv=true) | default('handled_empty') }}"
     ignore_errors: true
     register: empty_lookup
 
@@ -79,8 +81,8 @@
     ansible.builtin.set_fact:
       custom_path_result: "{{ lookup('ivorynomad.onepassword.onepassword',
                             'op://Test/Demo/password',
-                            op_path='/tmp/mock-op') |
-                            default('custom_path_tested') }}"
+                            op_path='/tmp/mock-op'),
+                            use_dotenv=true) | default('custom_path_tested') }}"
     ignore_errors: true
     register: custom_path_lookup
 
@@ -95,7 +97,8 @@
   - name: Test multiple invalid references
     ansible.builtin.set_fact:
       multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2',
-                      op_path='/tmp/mock-op') | default('multi_handled') }}"
+                      op_path='/tmp/mock-op'),
+                      use_dotenv=true) | default('multi_handled') }}"
     ignore_errors: true
     register: multi_lookup
 
