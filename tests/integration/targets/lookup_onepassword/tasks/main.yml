@@ -19,14 +19,20 @@
             ;;
         esac
 
+- name: Create mock dotenv file
+  ansible.builtin.copy:
+    dest: .env
+    mode: '0640'
+    content: |
+      OP_SERVICE_ACCOUNT_TOKEN=ops_mock_token_for_testing
+
 - name: Test plugin loads without error
   block:
   - name: Attempt to use plugin with invalid reference (should fail gracefully)
     ansible.builtin.set_fact:
       test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference',
-                      op_path='/tmp/mock-op') | default('plugin_loaded_but_failed') }}"
-    environment:
-      OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
+                      op_path='/tmp/mock-op',
+                      use_dotenv=true) | default('plugin_loaded_but_failed') }}"
     ignore_errors: true
     register: invalid_lookup
 
