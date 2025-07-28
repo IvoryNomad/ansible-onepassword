@@ -8,6 +8,8 @@ on:
     branches: [ master ]
   # Allow manual triggering
   workflow_dispatch:
+  # Allow being called from other workflows
+  workflow_call:
 
 # Set up permissions for the workflow
 permissions:
