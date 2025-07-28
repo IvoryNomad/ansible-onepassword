@@ -28,16 +28,16 @@ homepage: https://github.com/IvoryNomad/ansible-onepassword
 issues: https://github.com/IvoryNomad/ansible-onepassword/issues
 
 build_ignore:
-  - .github/
-  - .gitignore
-  - .git/
-  - tests/
-  - '*.tar.gz'
-  - '*.log'
-  - .pytest_cache/
-  - __pycache__/
-  - '*.pyc'
-  - .coverage
-  - coverage.xml
-  - .vscode/
-  - .idea/
+- .github/
+- .gitignore
+- .git/
+- tests/
+- '*.tar.gz'
+- '*.log'
+- .pytest_cache/
+- __pycache__/
+- '*.pyc'
+- .coverage
+- coverage.xml
+- .vscode/
+- .idea/
