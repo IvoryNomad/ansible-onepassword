@@ -1,0 +1,2 @@
+ansible_environment:
+  OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"

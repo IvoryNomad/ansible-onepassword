@@ -1,14 +1,4 @@
-# File: tests/integration/targets/lookup_onepassword/tasks/main.yml
 ---
-# Integration tests for onepassword lookup plugin
-# These tests run without requiring real 1Password credentials
-
-- name: Set up global mock environment variables
-  ansible.builtin.set_fact:
-    mock_env:
-      OP_SERVICE_ACCOUNT_TOKEN: "ops_mock_token_for_testing"
-  delegate_to: localhost
-
 - name: Setup mock 1Password CLI for testing
   block:
   - name: Create mock op binary
@@ -35,7 +25,6 @@
     ansible.builtin.set_fact:
       test_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid_reference',
                       op_path='/tmp/mock-op') | default('plugin_loaded_but_failed') }}"
-    environment: "{{ mock_env }}"
     ignore_errors: true
     register: invalid_lookup
 
@@ -52,7 +41,6 @@
     ansible.builtin.set_fact:
       mock_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'op://Test/Mock/password',
                       op_path='/tmp/mock-op') | default('no_real_1password') }}"
-    environment: "{{ mock_env }}"
     ignore_errors: true
     register: mock_lookup
 
@@ -69,7 +57,6 @@
       empty_result: "{{ lookup('ivorynomad.onepassword.onepassword', '',
                       op_path='/tmp/mock-op') | default('handled_empty') }}"
     ignore_errors: true
-    environment: "{{ mock_env }}"
     register: empty_lookup
 
   - name: Verify empty string handling
@@ -86,7 +73,6 @@
                             'op://Test/Demo/password',
                             op_path='/tmp/mock-op') |
                             default('custom_path_tested') }}"
-    environment: "{{ mock_env }}"
     ignore_errors: true
     register: custom_path_lookup
 
@@ -102,7 +88,6 @@
     ansible.builtin.set_fact:
       multi_result: "{{ lookup('ivorynomad.onepassword.onepassword', 'invalid1', 'invalid2',
                       op_path='/tmp/mock-op') | default('multi_handled') }}"
-    environment: "{{ mock_env }}"
     ignore_errors: true
     register: multi_lookup
 
