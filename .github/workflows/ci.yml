@@ -81,15 +81,25 @@ jobs:
         run: |
           # Add current directory to Python path for imports
           export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-          pytest tests/unit/ -v --cov=plugins --cov-report=xml --cov-report=term
+          pytest tests/unit/ -v --cov=plugins --cov-report=xml --cov-report=term --junitxml=junit.xml -o junit_family=legacy
 
       - name: Upload coverage reports
         if: matrix.python-version == '3.10' && matrix.ansible-version == '>=2.14.0'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() && matrix.python-version == '3.10' && matrix.ansible-version == '>=2.14.0' }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./junit.xml
+          flags: unittests
 
   # Job 3: Integration tests  
   integration-tests:
