@@ -2,6 +2,7 @@
 
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-ivorynomad.onepassword-blue.svg)](https://galaxy.ansible.com/ivorynomad/onepassword)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![CI](https://github.com/IvoryNomad/ansible-onepassword/workflows/CI/badge.svg)](https://github.com/IvoryNomad/ansible-onepassword/actions)
 [![codecov](https://codecov.io/gh/IvoryNomad/ansible-onepassword/branch/master/graph/badge.svg)](https://codecov.io/gh/IvoryNomad/ansible-onepassword)
 
